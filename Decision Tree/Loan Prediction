@@ -1,0 +1,36 @@
+#importing packages
+import numpy as np
+import  pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score
+from sklearn import tree
+
+#loading the data file
+balance_data = pd.read_csv('H:\decision tree\Decision_Tree_ Dataset.csv',sep=',', header= 0)
+
+#checking information of the data file
+print ("Dataset Lenght:: ", len(balance_data))
+print ("Dataset Shape:: ", balance_data.shape)
+
+#printing first five data to have a good look
+print("Dataset:: ")
+print(balance_data.head())
+
+#seperating input/output variables
+X = balance_data.values[:, 1:5]
+Y = balance_data.values[:,0]
+
+#splitting test and train data
+X_train, X_test, y_train, y_test = train_test_split( X, Y, test_size = 0.3, random_state = 100)
+
+#training model with entrophy
+clf_entropy = DecisionTreeClassifier(criterion = "entropy", random_state = 100,max_depth=3, min_samples_leaf=5)
+clf_entropy.fit(X_train, y_train)
+
+#making prediction
+y_pred_en = clf_entropy.predict(X_test)
+print(y_pred_en)
+
+#checking accuracy
+print("Accuracy is ", accuracy_score(y_test,y_pred_en)*100)
